@@ -65,7 +65,7 @@ export const GUIDES: GuideMeta[] = [
     title: "Planning & Scheduling",
     description: "Use the Planner, assign engineers, and optimise routes for the week.",
     audience: "Planners · Operations",
-    available: false,
+    available: true,
   },
   {
     slug: "field-engineers",
