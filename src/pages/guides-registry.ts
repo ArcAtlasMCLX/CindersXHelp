@@ -38,7 +38,7 @@ export const GUIDES: GuideMeta[] = [
     title: "Sales & Coordination",
     description: "Capture an enquiry, promote it to a deal, and request an estimate.",
     audience: "Sales · Coordinators",
-    available: false,
+    available: true,
   },
   {
     slug: "estimating",
