@@ -13,6 +13,7 @@ import {
   GuideCTA,
   GuideDivider,
 } from "@/components/guides/guide-primitives";
+import { AnimatedPlannerMockup } from "@/components/guides/MotionMockups";
 import { GUIDES } from "./guides-registry";
 import { appPath } from "@/config";
 
@@ -221,7 +222,7 @@ const PlanningSchedulingGuide = () => {
         title="Get to know the Planner"
         description="A weekly timeline of your engineers, with everything still to schedule down the side."
       />
-      <GuideSplit mockup={<PlannerMockup />}>
+      <GuideSplit mockup={<AnimatedPlannerMockup />}>
         <Steps>
           <Step n={1} title="Unscheduled, down the left">
             Jobs needing dates sit in the <strong>Unscheduled</strong> panel, each showing how many of its days are booked.

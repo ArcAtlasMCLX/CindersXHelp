@@ -13,6 +13,7 @@ import {
   GuideCTA,
   GuideDivider,
 } from "@/components/guides/guide-primitives";
+import { AnimatedPromoteGatesMockup } from "@/components/guides/MotionMockups";
 import { GUIDES } from "./guides-registry";
 import { appPath } from "@/config";
 
@@ -204,7 +205,7 @@ const SalesCoordinationGuide = () => {
         title="Get it ready to promote"
         description="An intake needs five things in place before it can become a deal. CindersX tracks them for you."
       />
-      <GuideSplit mockup={<GatesMockup />} reverse>
+      <GuideSplit mockup={<AnimatedPromoteGatesMockup />} reverse>
         <Steps>
           <Step n={1} title="Work the readiness checklist">
             The record shows five gates: <strong>verified customer</strong>, <strong>verified site</strong>,

@@ -13,6 +13,7 @@ import {
   GuideCTA,
   GuideDivider,
 } from "@/components/guides/guide-primitives";
+import { AnimatedApprovalChecklistMockup } from "@/components/guides/MotionMockups";
 import { GUIDES } from "./guides-registry";
 import { appPath } from "@/config";
 
@@ -225,7 +226,7 @@ const ApprovalsConversionGuide = () => {
         title="Approve the deal"
         description="A quick checklist confirms everything's in order before you sign off."
       />
-      <GuideSplit mockup={<ApprovalDialogMockup />}>
+      <GuideSplit mockup={<AnimatedApprovalChecklistMockup />}>
         <Steps>
           <Step n={1} title="Select Approve Deal">
             On a <StatusBadge tone="orange">Quoted</StatusBadge> deal, <strong>Approve Deal</strong> opens a confirmation checklist. (Approvers, seniors and super only.)
