@@ -83,7 +83,7 @@ export const GUIDES: GuideMeta[] = [
     title: "Admin & Setup",
     description: "Invite users, manage roles, and configure job types and settings.",
     audience: "Admins · Super",
-    available: false,
+    available: true,
   },
   {
     slug: "client-proposals",
@@ -92,7 +92,7 @@ export const GUIDES: GuideMeta[] = [
     title: "Client Proposals",
     description: "What clients see when they accept, reschedule, or decline a proposed date.",
     audience: "Client-facing",
-    available: false,
+    available: true,
   },
 ];
 
