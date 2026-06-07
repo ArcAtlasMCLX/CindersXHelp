@@ -47,7 +47,7 @@ export const GUIDES: GuideMeta[] = [
     title: "Estimating",
     description: "Pick up a deal from the queue, work it, and return your estimate.",
     audience: "Estimators",
-    available: false,
+    available: true,
   },
   {
     slug: "approvals-conversion",
