@@ -37,7 +37,10 @@ This is a static SPA — host it anywhere. Pick one:
 1. Push this folder to its own GitHub repo.
 2. In Netlify: **Add new site → Import from GitHub**, pick the repo.
 3. Build command `npm run build`, publish directory `dist`.
-   (SPA routing is handled by `public/_redirects`.)
+4. For SPA routing, add a `public/_redirects` file containing
+   `/*    /index.html   200`. (Do **not** keep this file when deploying to
+   Cloudflare Workers — its asset validator rejects the catch-all rule;
+   Cloudflare handles SPA routing via `wrangler.jsonc` instead.)
 4. **Domain settings → Add custom domain →** `help.cindersx.com`.
 5. At your DNS provider, add the record Netlify shows — usually:
    `CNAME  help  →  <your-site>.netlify.app`
