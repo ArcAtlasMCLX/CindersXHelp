@@ -56,7 +56,7 @@ export const GUIDES: GuideMeta[] = [
     title: "Approvals & Conversion",
     description: "Approve a quoted deal, clear the gates, and convert it into a job.",
     audience: "Managers · Approvers",
-    available: false,
+    available: true,
   },
   {
     slug: "planning-scheduling",
