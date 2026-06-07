@@ -26,6 +26,7 @@ import {
   GuideCTA,
   GuideDivider,
 } from "@/components/guides/guide-primitives";
+import { AnimatedStartJobMockup } from "@/components/guides/MotionMockups";
 import { GUIDES } from "./guides-registry";
 import { appPath } from "@/config";
 
@@ -249,7 +250,7 @@ const FieldEngineersGuide = () => {
         title="Starting a job"
         description="When you arrive on site and begin work, tell CindersX you've started."
       />
-      <GuideSplit mockup={<JobListMockup />} reverse>
+      <GuideSplit mockup={<AnimatedStartJobMockup />} reverse>
         <Steps>
           <Step n={1} title="Find today's job">
             Confirmed jobs in your <strong>Today</strong> list have a big <strong>Start Job</strong> button.
