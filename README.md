@@ -48,10 +48,18 @@ This is a static SPA — host it anywhere. Pick one:
 2. **Project → Settings → Domains → Add** `help.cindersx.com`.
 3. Add the `CNAME help → cname.vercel-dns.com` record Vercel shows at your DNS.
 
-### Option 3 — Cloudflare Pages
-1. **Pages → Create → Connect to Git**, build command `npm run build`,
-   output dir `dist`.
-2. **Custom domains → Set up a domain →** `help.cindersx.com` (Cloudflare wires DNS).
+### Option 3 — Cloudflare (Workers static assets) ✅ in use
+This repo ships a `wrangler.jsonc` that deploys the built `dist/` as static
+assets with SPA routing, so the connected build just works:
+1. **Workers & Pages → Create → Connect to Git**, pick this repo.
+   Build command `npm run build`, output dir `dist`, deploy `npx wrangler deploy`.
+2. **Settings → Domains & Routes → Add → Custom domain →** `help.cindersx.com`
+   (Cloudflare wires the proxied CNAME automatically).
+
+> The `assets.not_found_handling: "single-page-application"` setting in
+> `wrangler.jsonc` is what makes `/brand`, `/getting-started`, etc. work on
+> direct load / refresh. (The `_redirects` / `vercel.json` files cover the
+> Netlify / Vercel options above.)
 
 ### Option 4 — New Lovable project
 Import this repo as a separate Lovable project and attach the `help.cindersx.com`
