@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import GuidesHub from "./pages/GuidesHub";
 import GettingStartedGuide from "./pages/GettingStartedGuide";
+import FieldEngineersGuide from "./pages/FieldEngineersGuide";
 import BrandGuidelines from "./pages/BrandGuidelines";
 import NotFound from "./pages/NotFound";
 
@@ -20,6 +21,7 @@ const App = () => (
     <Routes>
       <Route path="/" element={<GuidesHub />} />
       <Route path="/getting-started" element={<GettingStartedGuide />} />
+      <Route path="/field-engineers" element={<FieldEngineersGuide />} />
       <Route path="/brand" element={<BrandGuidelines />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

@@ -74,7 +74,7 @@ export const GUIDES: GuideMeta[] = [
     title: "Field Engineers",
     description: "The mobile Field View: check in and out, add notes and photos, complete jobs.",
     audience: "Engineers · Lead Engineers",
-    available: false,
+    available: true,
   },
   {
     slug: "admin-setup",
