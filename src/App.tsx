@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import GuidesHub from "./pages/GuidesHub";
 import GettingStartedGuide from "./pages/GettingStartedGuide";
+import BrandGuidelines from "./pages/BrandGuidelines";
 import NotFound from "./pages/NotFound";
 
 /** Scroll to the top whenever the route changes (guides are long pages). */
@@ -19,6 +20,7 @@ const App = () => (
     <Routes>
       <Route path="/" element={<GuidesHub />} />
       <Route path="/getting-started" element={<GettingStartedGuide />} />
+      <Route path="/brand" element={<BrandGuidelines />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>

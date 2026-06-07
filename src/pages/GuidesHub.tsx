@@ -1,4 +1,4 @@
-import { BookOpen, ArrowRight, LifeBuoy } from "lucide-react";
+import { BookOpen, ArrowRight, LifeBuoy, Sparkles } from "lucide-react";
 import { GuideShell, GuideHero, GuideCard, SmartLink } from "@/components/guides/guide-primitives";
 import { buttonClasses } from "@/components/ui/button";
 import { GUIDES } from "./guides-registry";
@@ -26,6 +26,14 @@ const GuidesHub = () => {
             available={g.available}
           />
         ))}
+        <GuideCard
+          to="/brand"
+          icon={Sparkles}
+          title="Brand Guidelines"
+          description="Logos, colour palette, typography and tone of voice — the CindersX brand in one place."
+          audience="Design · Everyone"
+          available
+        />
       </div>
 
       {/* Pointer to the deep reference manual inside the app */}
