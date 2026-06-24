@@ -7,6 +7,7 @@ import {
   HardHat,
   ShieldCheck,
   Mail,
+  Receipt,
   LucideIcon,
 } from "lucide-react";
 
@@ -92,6 +93,15 @@ export const GUIDES: GuideMeta[] = [
     title: "Client Proposals",
     description: "What clients see when they accept, reschedule, or decline a proposed date.",
     audience: "Client-facing",
+    available: true,
+  },
+  {
+    slug: "administration",
+    path: "/administration",
+    icon: Receipt,
+    title: "Administration",
+    description: "Invoices & Finance, P&L by specialism, reporting queue, and review sign-offs.",
+    audience: "Managers · Finance",
     available: true,
   },
 ];

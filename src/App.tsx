@@ -9,6 +9,7 @@ import PlanningSchedulingGuide from "./pages/PlanningSchedulingGuide";
 import FieldEngineersGuide from "./pages/FieldEngineersGuide";
 import AdminSetupGuide from "./pages/AdminSetupGuide";
 import ClientProposalsGuide from "./pages/ClientProposalsGuide";
+import AdministrationGuide from "./pages/AdministrationGuide";
 import BrandGuidelines from "./pages/BrandGuidelines";
 import NotFound from "./pages/NotFound";
 
@@ -34,6 +35,7 @@ const App = () => (
       <Route path="/field-engineers" element={<FieldEngineersGuide />} />
       <Route path="/admin-setup" element={<AdminSetupGuide />} />
       <Route path="/client-proposals" element={<ClientProposalsGuide />} />
+      <Route path="/administration" element={<AdministrationGuide />} />
       <Route path="/brand" element={<BrandGuidelines />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
