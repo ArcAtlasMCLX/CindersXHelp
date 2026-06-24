@@ -160,7 +160,7 @@ function FinancesContent() {
           {[
             { icon: TrendingUp, title: "KPI strip", body: "Turnover, operating profit and blended margin at a glance for the uploaded period." },
             { icon: BarChart3, title: "Margin by specialism", body: "Diverging bar chart showing which specialisms are profitable and which are dragging the blended number down." },
-            { icon: FileSpreadsheet, title: "Month-on-month", body: "Comparison table showing the margin shift (in percentage points) for each specialism vs the prior period." },
+            { icon: FileSpreadsheet, title: "Week-on-week", body: "Comparison table showing the margin shift (in percentage points) for each specialism vs the prior week." },
           ].map((c) => (
             <div key={c.title} className="rounded-xl border border-border bg-card p-4">
               <c.icon className="mb-2 h-5 w-5 text-primary" />
@@ -194,7 +194,7 @@ function FinancesContent() {
               <div className="rounded border border-primary/30 bg-primary/5 p-1.5 text-[8px]">
                 <div className="font-semibold text-primary">Profit &amp; Loss</div>
                 <div className="mt-1 grid grid-cols-2 gap-1 text-muted-foreground">
-                  <div>Date range: <span className="text-foreground">This month</span></div>
+                  <div>Date range: <span className="text-foreground">This week</span></div>
                   <div>Group by: <span className="text-foreground">Tracking</span></div>
                 </div>
                 <div className="mt-1.5 inline-flex items-center gap-1 rounded bg-primary px-1.5 py-0.5 text-[7px] font-semibold text-primary-foreground">
@@ -206,16 +206,16 @@ function FinancesContent() {
         }>
           <Steps>
             <Step n={1} title="Go to Reporting → Profit & Loss in Xero" />
-            <Step n={2} title='Set the date range to the month you want, then set "Group by" to Tracking Category'>
-              The tracking category should be "Specialism" or equivalent — this is what creates the per-column breakdown CindersX reads.
+            <Step n={2} title='Set the date range to the week you want, then set "Group by" to Tracking Category'>
+              The tracking category should be your Specialism category — this creates the per-column breakdown CindersX reads. Each export covers one week (Mon–Sun).
             </Step>
             <Step n={3} title='Click Export → Excel (.xlsx)'>
               Save the file anywhere — you'll drag it straight into CindersX next.
             </Step>
           </Steps>
           <div className="mt-6">
-            <Callout variant="info" title="Which months to start with">
-              I'd suggest exporting the last 5–6 weeks of data to begin with — so roughly Weeks 21–26 (May through to this week). That gives enough history for the month-on-month comparison to be meaningful from day one.
+            <Callout variant="info" title="Which weeks to start with">
+              Export the last 5–6 weeks — roughly Weeks 21–26 (May through to this week). That gives the week-on-week comparison enough history to be meaningful from day one.
             </Callout>
           </div>
         </GuideSplit>
@@ -254,7 +254,7 @@ function FinancesContent() {
           <div className="space-y-4 text-sm text-muted-foreground">
             <p><strong className="text-foreground">KPI strip</strong> — the three numbers at the top (Turnover, Operating Profit, Blended Margin) are the company totals for the uploaded period.</p>
             <p><strong className="text-foreground">Margin by specialism</strong> — the diverging bar chart shows each specialism's operating margin. Bars to the right (green) are profitable; bars to the left (red) are loss-making. The wider the bar, the further from break-even.</p>
-            <p><strong className="text-foreground">Month-on-month table</strong> — once you have two or more periods uploaded, the table shows the margin movement in percentage points. A "+3.2 pp" means that specialism improved its margin by 3.2 points since the prior period.</p>
+            <p><strong className="text-foreground">Week-on-week table</strong> — once you have two or more weeks uploaded, the table shows the margin movement in percentage points. A "+3.2 pp" means that specialism improved its margin by 3.2 points vs the prior week.</p>
             <p><strong className="text-foreground">Trend line</strong> — the SVG chart at the bottom plots total turnover across all uploaded periods, giving a quick visual of trajectory.</p>
           </div>
         </GuideSplit>
@@ -265,7 +265,7 @@ function FinancesContent() {
       <div>
         <SectionHeading icon={Upload} title="Keeping it up to date" />
         <Callout variant="tip" title="Upload cadence">
-          Upload each month's export once Xero has been reconciled for that month — typically in the first week of the following month. There's no scheduled job; it's a manual upload whenever the numbers are ready.
+          Upload each week's export on Monday morning once the prior week is reconciled in Xero. There's no scheduled job; it's a manual upload whenever the numbers are ready.
         </Callout>
         <div className="mt-4">
           <Callout variant="info" title="Who uploads">
