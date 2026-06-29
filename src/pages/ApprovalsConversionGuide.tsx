@@ -259,6 +259,14 @@ const ApprovalsConversionGuide = () => {
 
       <GuideDivider />
 
+      <div className="mb-12">
+        <GuideVideo
+          src="/media/convert-to-job.mp4"
+          title="Convert an approved deal into a job"
+          description="A real walkthrough: open Convert to Job and review every requirement before the irreversible step."
+        />
+      </div>
+
       {/* 4. Convert */}
       <SectionHeading
         step={4}
