@@ -12,6 +12,7 @@ import {
   GuideCard,
   GuideCTA,
   GuideDivider,
+  GuideVideo,
 } from "@/components/guides/guide-primitives";
 import { GUIDES } from "./guides-registry";
 import { appPath } from "@/config";
@@ -156,6 +157,14 @@ const EstimatingGuide = () => {
         title="Pricing the work"
         description="When sales request an estimate, it lands in your queue. Claim it, build the numbers (or upload a quote), and return it — ready for approval."
       />
+
+      <div className="mb-12">
+        <GuideVideo
+          src="/media/claim-return-estimate.mp4"
+          title="Claim a deal and return the estimate"
+          description="A real walkthrough: pick a deal up from the queue, work it, and return your estimate to sales."
+        />
+      </div>
 
       {/* 1. Pick up work */}
       <SectionHeading
