@@ -12,6 +12,7 @@ import {
   GuideCard,
   GuideCTA,
   GuideDivider,
+  GuideVideo,
 } from "@/components/guides/guide-primitives";
 import { AnimatedApprovalChecklistMockup } from "@/components/guides/MotionMockups";
 import { GUIDES } from "./guides-registry";
@@ -165,6 +166,14 @@ const ApprovalsConversionGuide = () => {
         title="Sign off and convert"
         description="When a deal is quoted, a manager reviews it, approves it, and turns it into a scheduled job. CindersX checks the requirements for you at every step."
       />
+
+      <div className="mb-12">
+        <GuideVideo
+          src="/media/approve-deal.mp4"
+          title="Approve a quoted deal"
+          description="A real walkthrough: open a quoted deal, clear the approval checklist (including the 3-hour gate), and approve it."
+        />
+      </div>
 
       {/* 1. Find deals */}
       <SectionHeading
