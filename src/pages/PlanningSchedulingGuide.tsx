@@ -12,6 +12,7 @@ import {
   GuideCard,
   GuideCTA,
   GuideDivider,
+  GuideVideo,
 } from "@/components/guides/guide-primitives";
 import { AnimatedPlannerMockup } from "@/components/guides/MotionMockups";
 import { GUIDES } from "./guides-registry";
@@ -215,6 +216,14 @@ const PlanningSchedulingGuide = () => {
         title="Filling the week"
         description="The Planner is where confirmed work gets people and dates. Schedule jobs onto your engineers, balance the load, and keep an eye on conflicts — all on one screen."
       />
+
+      <div className="mb-12">
+        <GuideVideo
+          src="/media/schedule-job.mp4"
+          title="Schedule a job on the Planner"
+          description="A real walkthrough: open a job from the Unscheduled panel and assign the engineer who'll do the work."
+        />
+      </div>
 
       {/* 1. Know the planner */}
       <SectionHeading
