@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import GuidesHub from "./pages/GuidesHub";
+import InstallAppGuide from "./pages/InstallAppGuide";
 import GettingStartedGuide from "./pages/GettingStartedGuide";
 import SalesCoordinationGuide from "./pages/SalesCoordinationGuide";
 import EstimatingGuide from "./pages/EstimatingGuide";
@@ -27,6 +28,7 @@ const App = () => (
     <ScrollToTop />
     <Routes>
       <Route path="/" element={<GuidesHub />} />
+      <Route path="/install-app" element={<InstallAppGuide />} />
       <Route path="/getting-started" element={<GettingStartedGuide />} />
       <Route path="/sales-coordination" element={<SalesCoordinationGuide />} />
       <Route path="/estimating" element={<EstimatingGuide />} />

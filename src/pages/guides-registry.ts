@@ -1,4 +1,5 @@
 import {
+  Smartphone,
   Compass,
   Inbox,
   ClipboardList,
@@ -23,6 +24,15 @@ export interface GuideMeta {
 
 /** Single source of truth for every staff guide. Flip `available` as each is built. */
 export const GUIDES: GuideMeta[] = [
+  {
+    slug: "install-app",
+    path: "/install-app",
+    icon: Smartphone,
+    title: "Install on your phone",
+    description: "Add CindersX to your home screen so it opens like an app — Apple & Android.",
+    audience: "Everyone · Phase 0",
+    available: true,
+  },
   {
     slug: "getting-started",
     path: "/getting-started",
