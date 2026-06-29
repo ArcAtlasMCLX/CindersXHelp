@@ -64,11 +64,6 @@ assets with SPA routing, so the connected build just works:
 > direct load / refresh. (The `_redirects` / `vercel.json` files cover the
 > Netlify / Vercel options above.)
 
-### Option 4 — New Lovable project
-Import this repo as a separate Lovable project and attach the `help.cindersx.com`
-custom domain in its settings. Keeps it editable in Lovable but still decoupled
-from the main app's branches.
-
 > **DNS note:** `help` is a subdomain — you add **one CNAME record** for `help`
 > pointing at the host. It does not affect the apex domain or the main app.
 

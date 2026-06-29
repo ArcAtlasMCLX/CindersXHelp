@@ -385,3 +385,41 @@ export function GuideCTA({
 export function GuideDivider() {
   return <div className="my-14 h-px bg-gradient-to-r from-transparent via-border to-transparent" />;
 }
+
+/* ------------------------------------------------------------------ */
+/*  GuideVideo — an embedded "see it in action" recording             */
+/* ------------------------------------------------------------------ */
+
+export function GuideVideo({
+  src,
+  eyebrow = "See it in action",
+  title,
+  description,
+  portrait = false,
+}: {
+  src: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  portrait?: boolean;
+}) {
+  return (
+    <div className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">{eyebrow}</p>
+      <h3 className="mt-1 text-lg font-semibold">{title}</h3>
+      {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
+      <div className={cn("mt-4", portrait && "mx-auto max-w-[320px]")}>
+        <video
+          controls
+          playsInline
+          preload="metadata"
+          muted
+          className="w-full rounded-xl border border-border bg-background shadow-lg"
+        >
+          <source src={src} type="video/mp4" />
+          Your browser doesn't support embedded video.
+        </video>
+      </div>
+    </div>
+  );
+}

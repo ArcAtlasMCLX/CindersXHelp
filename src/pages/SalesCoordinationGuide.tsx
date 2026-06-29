@@ -12,6 +12,7 @@ import {
   GuideCard,
   GuideCTA,
   GuideDivider,
+  GuideVideo,
 } from "@/components/guides/guide-primitives";
 import { AnimatedPromoteGatesMockup } from "@/components/guides/MotionMockups";
 import { GUIDES } from "./guides-registry";
@@ -228,6 +229,14 @@ const SalesCoordinationGuide = () => {
       </GuideSplit>
 
       <GuideDivider />
+
+      <div className="mb-12">
+        <GuideVideo
+          src="/media/promote-intake-to-deal.mp4"
+          title="Promote a ready intake into a deal"
+          description="A real walkthrough: open a ready intake, check the five green gates, and promote it to a live deal."
+        />
+      </div>
 
       {/* 3. Promote to deal */}
       <SectionHeading

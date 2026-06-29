@@ -25,6 +25,7 @@ import {
   GuideCard,
   GuideCTA,
   GuideDivider,
+  GuideVideo,
 } from "@/components/guides/guide-primitives";
 import { AnimatedStartJobMockup } from "@/components/guides/MotionMockups";
 import { GUIDES } from "./guides-registry";
@@ -213,6 +214,15 @@ const FieldEngineersGuide = () => {
         title="Working in the field"
         description="CindersX gives you a simple mobile view built for the job: see what's on today, start your work, and sign it off with notes and photos — all from your phone."
       />
+
+      <div className="mb-12">
+        <GuideVideo
+          src="/media/field-complete-job.mp4"
+          title="Start and complete a job — start to finish"
+          description="A real walkthrough on a phone: open My Jobs, start the job, then sign it off with notes."
+          portrait
+        />
+      </div>
 
       {/* 1. Your job list */}
       <SectionHeading
