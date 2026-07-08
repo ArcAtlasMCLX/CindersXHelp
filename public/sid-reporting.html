@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SID · Reporting System</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* CindersX brand */
+  --black:       #0A0A0A;
+  --card:        #141414;
+  --card-2:      #1C1C1C;
+  --border:      rgba(255,255,255,0.08);
+  --border-mid:  rgba(255,255,255,0.12);
+
+  --orange:      #FA8638;
+  --orange-hot:  #FF6600;
+  --orange-dim:  rgba(250,134,56,0.15);
+  --orange-ring: rgba(250,134,56,0.30);
+
+  --cream:       #F7F0D8;
+  --cream-mid:   rgba(247,240,216,0.65);
+  --cream-dim:   rgba(247,240,216,0.35);
+
+  --teal:        #10707F;
+  --teal-dim:    rgba(16,112,127,0.20);
+  --teal-text:   #3EA8B8;
+
+  /* Cadence colours */
+  --c-daily:     #FF6600;
+  --c-daily-bg:  rgba(255,102,0,0.12);
+  --c-weekly:    #FA8638;
+  --c-weekly-bg: rgba(250,134,56,0.12);
+  --c-monthly:   #3EA8B8;
+  --c-monthly-bg:rgba(62,168,184,0.12);
+
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--black);
+  color: var(--cream);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── HERO ────────────────────────────────── */
+.hero {
+  position: relative;
+  padding: 56px 40px 48px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero-glow-l {
+  position: absolute;
+  top: -80px; left: -80px;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,102,0,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-glow-r {
+  position: absolute;
+  bottom: -100px; right: -80px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,112,127,0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: var(--orange);
+  border-radius: 1px;
+}
+.hero-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--cream);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 14px;
+  text-wrap: balance;
+}
+.hero-title em {
+  font-style: normal;
+  color: var(--orange);
+}
+.hero-sub {
+  font-size: 15px;
+  color: var(--cream-mid);
+  max-width: 540px;
+  line-height: 1.6;
+}
+
+/* ── MAIN ────────────────────────────────── */
+.main { max-width: 980px; margin: 0 auto; padding: 44px 24px 80px; }
+
+/* ── SECTION LABEL ───────────────────────── */
+.sec-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  margin-bottom: 16px;
+}
+
+/* ── CADENCE CARDS ───────────────────────── */
+.cadence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 48px;
+}
+@media (max-width: 700px) { .cadence-grid { grid-template-columns: 1fr; } }
+
+.ccard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.ccard::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.ccard.daily::after  { background: var(--c-daily); }
+.ccard.weekly::after { background: var(--c-weekly); }
+.ccard.monthly::after{ background: linear-gradient(90deg, var(--teal), var(--teal-text)); }
+
+.ccard-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+.daily  .ccard-tag { background: var(--c-daily-bg);   color: var(--c-daily); }
+.weekly .ccard-tag { background: var(--c-weekly-bg);  color: var(--c-weekly); }
+.monthly .ccard-tag { background: var(--c-monthly-bg); color: var(--c-monthly); }
+
+.ccard-name {
+  font-size: 18px;
+  font-weight: 750;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.ccard-purpose {
+  font-size: 12px;
+  color: var(--cream-mid);
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+.ccard-meta { display: flex; flex-direction: column; gap: 5px; }
+.meta-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11px;
+}
+.meta-k { color: var(--cream-dim); min-width: 56px; flex-shrink: 0; }
+.meta-v { color: var(--cream); font-weight: 600; }
+
+/* ── SUBJECT LINE ROWS ───────────────────── */
+.subject-stack { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+.subject-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 13px 18px;
+}
+.stag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.stag.d { background: var(--c-daily-bg);   color: var(--c-daily); }
+.stag.w { background: var(--c-weekly-bg);  color: var(--c-weekly); }
+.stag.m { background: var(--c-monthly-bg); color: var(--c-monthly); }
+.sline { font-size: 13px; color: var(--cream); font-weight: 500; flex: 1; }
+.sfrom { font-size: 11px; color: var(--cream-dim); font-family: var(--mono); }
+
+/* ── SPEC BLOCKS ─────────────────────────── */
+.spec { background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
+.spec-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.spec-pip { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.daily   .spec-pip { background: var(--c-daily); box-shadow: 0 0 8px var(--c-daily); }
+.weekly  .spec-pip { background: var(--c-weekly); box-shadow: 0 0 8px var(--c-weekly); }
+.monthly .spec-pip { background: var(--c-monthly); box-shadow: 0 0 8px var(--c-monthly); }
+
+.spec-title { font-size: 15px; font-weight: 700; color: var(--cream); letter-spacing: -0.01em; }
+.spec-timing { margin-left: auto; font-size: 11px; color: var(--cream-dim); white-space: nowrap; }
+
+.spec-body {
+  display: grid;
+  grid-template-columns: 1fr 252px;
+}
+@media (max-width: 740px) { .spec-body { grid-template-columns: 1fr; } }
+
+.spec-content { padding: 22px 24px; }
+.spec-preview { border-left: 1px solid var(--border); background: #0F0F0F; padding: 18px; }
+
+/* ── DATA CONTENT ────────────────────────── */
+.dhead {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 8px;
+  margin-top: 20px;
+}
+.dhead:first-of-type { margin-top: 0; }
+.dlist { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.dlist li {
+  font-size: 12.5px;
+  color: var(--cream-mid);
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  line-height: 1.45;
+}
+.dlist li::before {
+  content: '';
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--orange);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.dlist strong { color: var(--cream); }
+
+/* ── EMAIL MOCKUP (light) ────────────────── */
+.emock {
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  font-size: 10px;
+  color: #1a1a1a;
+}
+.emock-header {
+  background: #0A0A0A;
+  padding: 9px 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.emock-brand { color: #F7F0D8; font-weight: 800; font-size: 10px; letter-spacing: 0.02em; }
+.emock-badge {
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #FA8638;
+  border: 1px solid rgba(250,134,56,0.4);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.emock-bar { height: 2px; background: linear-gradient(90deg, #FA8638, #FF6600); }
+.emock-body { padding: 12px 13px; }
+.emock-kicker { font-size: 7.5px; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+.emock-headline { font-size: 11px; font-weight: 800; color: #0A0A0A; line-height: 1.25; margin-bottom: 8px; text-wrap: balance; }
+.emock-intro { font-size: 9.5px; color: #555; margin-bottom: 8px; }
+.emock-bullet {
+  display: flex; gap: 5px;
+  font-size: 9.5px; color: #374151;
+  margin-bottom: 4px; line-height: 1.4;
+}
+.emock-bullet::before { content: '·'; color: #FA8638; flex-shrink: 0; font-weight: 700; }
+.emock-slabel {
+  font-size: 7px; font-weight: 800;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #FA8638;
+  border-top: 1px solid #eee;
+  padding-top: 7px; margin-top: 7px; margin-bottom: 4px;
+}
+.emock-nodata {
+  font-size: 8.5px; color: #888;
+  background: #fafafa;
+  border-left: 2px solid #ddd;
+  padding: 4px 6px;
+  margin-top: 5px;
+  font-style: italic;
+  line-height: 1.4;
+}
+.emock-cta {
+  display: inline-block;
+  background: #FA8638;
+  color: #0A0A0A;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 5px 10px;
+  border-radius: 3px;
+  margin-top: 9px;
+  letter-spacing: 0.02em;
+}
+.emock-sig {
+  font-size: 8px; color: #999;
+  margin-top: 9px;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+  font-style: italic;
+  line-height: 1.4;
+}
+.emock-footer {
+  background: #0A0A0A;
+  padding: 7px 13px;
+  font-size: 7px;
+  color: rgba(247,240,216,0.35);
+  text-align: center;
+}
+
+/* ── PRINCIPLES ──────────────────────────── */
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 44px;
+}
+@media (max-width: 600px) { .principles-grid { grid-template-columns: 1fr; } }
+
+.pcard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px;
+}
+.pcard-icon { font-size: 18px; margin-bottom: 12px; display: block; }
+.pcard-title { font-size: 13px; font-weight: 700; color: var(--cream); margin-bottom: 8px; }
+.pcard-body { font-size: 12px; color: var(--cream-mid); line-height: 1.6; }
+.pcard-example {
+  margin-top: 12px;
+  background: var(--card-2);
+  border-left: 2px solid var(--orange);
+  padding: 8px 11px;
+  font-size: 11px;
+  color: var(--cream-dim);
+  font-style: italic;
+  line-height: 1.5;
+  border-radius: 0 4px 4px 0;
+}
+
+/* ── ARCH GRID ───────────────────────────── */
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+@media (max-width: 620px) { .arch-grid { grid-template-columns: 1fr; } }
+.arch-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+.arch-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal-text);
+  margin-bottom: 6px;
+}
+.arch-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cream);
+  font-family: var(--mono);
+  margin-bottom: 3px;
+}
+.arch-note { font-size: 11px; color: var(--cream-dim); line-height: 1.5; }
+
+/* ── TABLE ───────────────────────────────── */
+.tbl-wrap { overflow-x: auto; margin-bottom: 44px; border-radius: 8px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+thead th {
+  background: #1a1a1a;
+  color: var(--cream-dim);
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+tbody tr { border-top: 1px solid var(--border); }
+tbody td { padding: 10px 14px; color: var(--cream-mid); vertical-align: middle; }
+tbody td:first-child { color: var(--cream); font-weight: 600; font-family: var(--mono); font-size: 11.5px; }
+tbody tr:hover { background: rgba(255,255,255,0.02); }
+.dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+.dot-d { background: var(--c-daily);   box-shadow: 0 0 5px var(--c-daily); }
+.dot-w { background: var(--c-weekly);  box-shadow: 0 0 5px var(--c-weekly); }
+.dot-m { background: var(--c-monthly); box-shadow: 0 0 5px var(--c-monthly); }
+.dot-no { color: rgba(255,255,255,0.15); font-size: 10px; }
+
+/* ── DIVIDER ─────────────────────────────── */
+.divider { height: 1px; background: var(--border); margin: 44px 0; }
+
+/* ── UTIL ────────────────────────────────── */
+.mb-48 { margin-bottom: 48px; }
+.mb-32 { margin-bottom: 32px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-12 { margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow-l"></div>
+  <div class="hero-glow-r"></div>
+  <div class="hero-eyebrow">CindersX · Premier Compliance</div>
+  <h1 class="hero-title">SID <em>Reporting</em><br>System</h1>
+  <p class="hero-sub">Three email cadences — daily pulse, weekly workload, monthly deep dive — native to the CindersX brand, designed to grow with the platform and invite the feedback that sharpens it.</p>
+</div>
+
+<div class="main">
+
+  <!-- CADENCE OVERVIEW -->
+  <p class="sec-label">Three cadences</p>
+  <div class="cadence-grid">
+
+    <div class="ccard daily">
+      <span class="ccard-tag">Daily</span>
+      <div class="ccard-name">Daily Brief</div>
+      <div class="ccard-purpose">Two-minute operational pulse. What moved overnight, what's urgent, nothing else.</div>
+      <div class="ccard-meta">
+        <div class="meta-row"><span class="meta-k">Timing</span><span class="meta-v">Mon–Fri 7:30am</span></div>
+        <div class="meta-row"><span class="meta-k">Length</span><span class="meta-v">~150 words · 5 bullets</span></div>
+        <div class="meta-row"><span class="meta-k">Effort</span><span class="meta-v">2 min read</span></div>
+        <div class="meta-row"><span class="meta-k">From</span><span class="meta-v">sid@cindersx.com</span></div>
+      </div>
+    </div>
+
+    <div class="ccard weekly">
+      <span class="ccard-tag">Weekly</span>
+      <div class="ccard-name">Weekly Review</div>
+      <div class="ccard-purpose">Task and review list. Surface the workload that needs a human decision or action this week.</div>
+      <div class="ccard-meta">
+        <div class="meta-row"><span class="meta-k">Timing</span><span class="meta-v">Monday 7:30am</span></div>
+        <div class="meta-row"><span class="meta-k">Length</span><span class="meta-v">~500 words · 3 sections</span></div>
+        <div class="meta-row"><span class="meta-k">Effort</span><span class="meta-v">~60 min workload</span></div>
+        <div class="meta-row"><span class="meta-k">From</span><span class="meta-v">sid@cindersx.com</span></div>
+      </div>
+    </div>
+
+    <div class="ccard monthly">
+      <span class="ccard-tag">Monthly</span>
+      <div class="ccard-name">Monthly Deep Dive</div>
+      <div class="ccard-purpose">Sit-down meeting material. Revenue, trends, team, pipeline — with a suggested agenda built in.</div>
+      <div class="ccard-meta">
+        <div class="meta-row"><span class="meta-k">Timing</span><span class="meta-v">1st of month 8:00am</span></div>
+        <div class="meta-row"><span class="meta-k">Length</span><span class="meta-v">~1,000 words · 5 sections</span></div>
+        <div class="meta-row"><span class="meta-k">Effort</span><span class="meta-v">2–3 hr sit-down</span></div>
+        <div class="meta-row"><span class="meta-k">From</span><span class="meta-v">sid@cindersx.com</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBJECT LINES -->
+  <p class="sec-label mb-12">Subject line format</p>
+  <div class="subject-stack">
+    <div class="subject-row">
+      <span class="stag d">Daily</span>
+      <span class="sline">SID: Monday 7 Jul · daily brief</span>
+      <span class="sfrom">sid@cindersx.com</span>
+    </div>
+    <div class="subject-row">
+      <span class="stag w">Weekly</span>
+      <span class="sline">SID: week of 7 Jul · your review</span>
+      <span class="sfrom">sid@cindersx.com</span>
+    </div>
+    <div class="subject-row">
+      <span class="stag m">Monthly</span>
+      <span class="sline">SID: July 2026 · monthly deep dive</span>
+      <span class="sfrom">sid@cindersx.com</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DAILY SPEC -->
+  <p class="sec-label mb-12">Detailed specifications</p>
+
+  <div class="spec daily">
+    <div class="spec-head daily">
+      <div class="spec-pip"></div>
+      <div class="spec-title">Daily Brief</div>
+      <div class="spec-timing">Mon–Fri · 7:30am · ~150 words</div>
+    </div>
+    <div class="spec-body">
+      <div class="spec-content">
+        <div class="dhead">Content — in order</div>
+        <ul class="dlist">
+          <li><strong>Headline verdict</strong> — one sentence. "Quiet overnight — 2 jobs completed, no urgent flags." If there is a flag, it leads.</li>
+          <li><strong>Jobs completed yesterday</strong> — count, plus any where report or invoice hasn't been raised.</li>
+          <li><strong>New intakes received</strong> — count, plus any marked urgent.</li>
+          <li><strong>Urgent flags</strong> — overdue intakes (past SLA), high-priority jobs with no engineer assigned.</li>
+          <li><strong>Pipeline moves</strong> — deals that changed stage overnight. Brief: "2 deals moved to Quoted."</li>
+          <li><strong>Invoices ready</strong> — count sitting in "ready" status awaiting send.</li>
+        </ul>
+        <div class="dhead">Tone</div>
+        <ul class="dlist">
+          <li>Declarative and brief. No hedging. If nothing to flag, say so directly — "Nothing urgent today."</li>
+          <li>Bullets only — no narrative paragraphs in the daily. Scanned, not read.</li>
+          <li>Numbers in <strong>bold</strong>; comparisons only when there's yesterday's figure to compare against.</li>
+        </ul>
+      </div>
+      <div class="spec-preview">
+        <div class="emock">
+          <div class="emock-header">
+            <span class="emock-brand">CindersX</span>
+            <span class="emock-badge">SID</span>
+          </div>
+          <div class="emock-bar"></div>
+          <div class="emock-body">
+            <div class="emock-kicker">Monday 7 Jul · daily brief</div>
+            <div class="emock-headline">Solid start — 3 jobs wrapped, 1 intake needs attention today.</div>
+            <div class="emock-intro">Hi Zach, here's your morning brief.</div>
+            <div class="emock-bullet"><strong>3 jobs</strong> completed yesterday. 1 missing invoice.</div>
+            <div class="emock-bullet"><strong>4 new intakes</strong> received. 1 marked urgent.</div>
+            <div class="emock-bullet"><strong>2 deals</strong> moved to Quoted stage.</div>
+            <div class="emock-bullet"><strong>5 invoices</strong> sitting ready to send.</div>
+            <div class="emock-bullet">No overdue SLA intakes today.</div>
+            <div class="emock-cta">Open CindersX →</div>
+            <div class="emock-sig">— SID · Premier Compliance intelligence<br/>Reply to shape future updates.</div>
+          </div>
+          <div class="emock-footer">cindersx.com · daily brief</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY SPEC -->
+  <div class="spec weekly">
+    <div class="spec-head weekly">
+      <div class="spec-pip"></div>
+      <div class="spec-title">Weekly Review</div>
+      <div class="spec-timing">Monday · 7:30am · ~500 words · 3 sections</div>
+    </div>
+    <div class="spec-body">
+      <div class="spec-content">
+        <div class="dhead">Section 1 — Needs Action</div>
+        <ul class="dlist">
+          <li>Jobs scheduled this week with no engineer assigned yet</li>
+          <li>Intakes approaching or past their SLA threshold</li>
+          <li>Estimates in draft for more than 7 days (stalled)</li>
+          <li>Deals stuck in the same stage for 14+ days</li>
+          <li>Invoices in "ready" status unsent for more than 3 days</li>
+        </ul>
+        <div class="dhead">Section 2 — What Moved</div>
+        <ul class="dlist">
+          <li>Jobs completed last week — count and job types</li>
+          <li>Intakes promoted to deals this week</li>
+          <li>Deals won or lost, with deal value</li>
+          <li>New customers added</li>
+          <li>Revenue invoiced last week (vs prior week once available)</li>
+        </ul>
+        <div class="dhead">Section 3 — Watch List</div>
+        <ul class="dlist">
+          <li>Engineer workload distribution — jobs per person this week</li>
+          <li>Revisits logged this week — early quality signal</li>
+          <li>High-value deals with no recent activity</li>
+          <li>Missing P&amp;L upload flag if no Xero upload in 30+ days</li>
+        </ul>
+        <div class="dhead">Tone</div>
+        <ul class="dlist">
+          <li><strong>Section 1</strong> is actionable — each item should lead to a specific task in CindersX.</li>
+          <li><strong>Section 2</strong> is informational — what the team produced last week.</li>
+          <li><strong>Section 3</strong> is a watch prompt — worth attention, not panic.</li>
+        </ul>
+      </div>
+      <div class="spec-preview">
+        <div class="emock">
+          <div class="emock-header">
+            <span class="emock-brand">CindersX</span>
+            <span class="emock-badge">SID</span>
+          </div>
+          <div class="emock-bar"></div>
+          <div class="emock-body">
+            <div class="emock-kicker">week of 7 Jul · your review</div>
+            <div class="emock-headline">Good pipeline movement — 3 items need your decision this week.</div>
+            <div class="emock-intro">Hi Jacob, here's this week's workload.</div>
+            <div class="emock-slabel">Needs Action</div>
+            <div class="emock-bullet">2 jobs this week — no engineer assigned.</div>
+            <div class="emock-bullet">1 intake at 8 SLA days. Threshold is 10.</div>
+            <div class="emock-bullet">3 invoices ready, unsent for 4+ days.</div>
+            <div class="emock-slabel">What Moved</div>
+            <div class="emock-bullet">6 jobs completed. 2 intakes promoted.</div>
+            <div class="emock-bullet">1 deal won — £4,200 Fire Risk Assessment.</div>
+            <div class="emock-bullet">£11,400 invoiced last week.</div>
+            <div class="emock-slabel">Watch List</div>
+            <div class="emock-bullet">Tom: 7 jobs vs team avg 4. Worth a check.</div>
+            <div class="emock-bullet">2 revisits logged — both Asbestos surveys.</div>
+            <div class="emock-nodata">Week 2 of tracking — no prior week comparison yet. This becomes your baseline.</div>
+            <div class="emock-cta">Open CindersX →</div>
+            <div class="emock-sig">— SID · Reply to shape future updates.</div>
+          </div>
+          <div class="emock-footer">cindersx.com · weekly review</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTHLY SPEC -->
+  <div class="spec monthly">
+    <div class="spec-head monthly">
+      <div class="spec-pip"></div>
+      <div class="spec-title">Monthly Deep Dive</div>
+      <div class="spec-timing">1st of month · 8:00am · ~1,000 words · 5 sections + meeting agenda</div>
+    </div>
+    <div class="spec-body">
+      <div class="spec-content">
+        <div class="dhead">Section 1 — Revenue Snapshot</div>
+        <ul class="dlist">
+          <li>Total invoiced this month vs prior month (when available)</li>
+          <li>Invoice count, average value, revenue by job type (top 3)</li>
+          <li>P&amp;L snapshot if a Xero upload exists for the period</li>
+          <li>Invoices outstanding at month end</li>
+        </ul>
+        <div class="dhead">Section 2 — Pipeline Health</div>
+        <ul class="dlist">
+          <li>Total pipeline value broken down by stage</li>
+          <li>Deals won and lost this month — conversion rate</li>
+          <li>Intake funnel: new → promoted → converted to job</li>
+          <li>Average days from intake to deal, deal to job</li>
+          <li>Top 3 customers by job count and deal value</li>
+        </ul>
+        <div class="dhead">Section 3 — Team Performance</div>
+        <ul class="dlist">
+          <li>Jobs per engineer this month</li>
+          <li>User activity scores (from the compute-user-scores engine)</li>
+          <li>Revisit rate by job type — quality indicator</li>
+          <li>Average days from job completion to invoice sent</li>
+        </ul>
+        <div class="dhead">Section 4 — What SID Is Learning</div>
+        <ul class="dlist">
+          <li>SID query volume and most-asked questions this month</li>
+          <li>Refusal rate — where SID doesn't yet have answers</li>
+          <li>Gaps SID has identified in the data it can see</li>
+          <li>An explicit ask: what would Zach or Jacob like SID to cover next?</li>
+        </ul>
+        <div class="dhead">Section 5 — Meeting Agenda</div>
+        <ul class="dlist">
+          <li>5 suggested talking points auto-generated from the month's data</li>
+          <li>Each item references the specific number that surfaced it</li>
+          <li>One "SID doesn't know yet" item — a question the data can't answer</li>
+        </ul>
+      </div>
+      <div class="spec-preview">
+        <div class="emock">
+          <div class="emock-header">
+            <span class="emock-brand">CindersX</span>
+            <span class="emock-badge">SID</span>
+          </div>
+          <div class="emock-bar"></div>
+          <div class="emock-body">
+            <div class="emock-kicker">July 2026 · monthly deep dive</div>
+            <div class="emock-headline">Solid July — revenue up, pipeline healthy, two things worth a proper conversation.</div>
+            <div class="emock-intro">Hi Zach & Jacob, here's your July review.</div>
+            <div class="emock-slabel">Revenue</div>
+            <div class="emock-bullet"><strong>£38,400</strong> invoiced · 14 invoices sent.</div>
+            <div class="emock-bullet">Fire Risk led by type — £12,100.</div>
+            <div class="emock-nodata">No prior month loaded yet — July is your baseline. August will show movement.</div>
+            <div class="emock-slabel">Pipeline</div>
+            <div class="emock-bullet">£94k total pipeline. 3 deals won (£18k).</div>
+            <div class="emock-bullet">Intake→deal conversion: 68%. 22 new intakes.</div>
+            <div class="emock-slabel">Team</div>
+            <div class="emock-bullet">28 jobs completed. Tom 9 · Sarah 8 · Mike 6.</div>
+            <div class="emock-bullet">Avg job-to-invoice: 4.2 days. Good.</div>
+            <div class="emock-slabel">Meeting Agenda</div>
+            <div class="emock-bullet">Why are 4 Asbestos jobs revisiting?</div>
+            <div class="emock-bullet">Tom's load — sustainable at 9/month?</div>
+            <div class="emock-bullet">3 stalled deals at £2k+ each.</div>
+            <div class="emock-sig">— SID · still learning · reply to shape what's next.</div>
+          </div>
+          <div class="emock-footer">cindersx.com · monthly deep dive</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESIGN PRINCIPLES -->
+  <div class="divider"></div>
+  <p class="sec-label mb-16">Design principles</p>
+  <div class="principles-grid mb-48">
+    <div class="pcard">
+      <span class="pcard-icon">🌱</span>
+      <div class="pcard-title">Graceful when data is missing</div>
+      <div class="pcard-body">SID never fails silently or shows broken zeros. When a prior period doesn't exist — first monthly, first week — it surfaces the gap as a positive: this is your baseline.</div>
+      <div class="pcard-example">"No prior month to compare against yet — July is your baseline. August will show the movement."</div>
+    </div>
+    <div class="pcard">
+      <span class="pcard-icon">📡</span>
+      <div class="pcard-title">Transparent about what it knows</div>
+      <div class="pcard-body">Every email has a brief note about where SID's picture is still incomplete — missing uploads, sparse data, areas it hasn't been taught. Honesty builds trust faster than silence.</div>
+      <div class="pcard-example">"SID can't yet see payment status — it knows when invoices were sent, not when they were paid."</div>
+    </div>
+    <div class="pcard">
+      <span class="pcard-icon">💬</span>
+      <div class="pcard-title">Every email invites feedback</div>
+      <div class="pcard-body">Each email closes with a reply prompt. Zach and Jacob's replies are how SID learns what language, what detail, and what ordering actually works for them. Replies log to <code style="font-size:11px;color:var(--teal-text);">sid_report_feedback</code>.</div>
+      <div class="pcard-example">"Reply to shape future updates — more detail, less, or a different order? Tell SID."</div>
+    </div>
+    <div class="pcard">
+      <span class="pcard-icon">🎯</span>
+      <div class="pcard-title">Audience-aware routing</div>
+      <div class="pcard-body">Zach and Jacob can receive the same or different versions of any cadence. As preferences emerge — one prefers ops, one prefers commercial — the system adapts per recipient per cadence without separate edge function invocations.</div>
+      <div class="pcard-example">Config stored per recipient in <code style="font-size:11px;color:var(--teal-text);">sid_report_schedule</code>.</div>
+    </div>
+  </div>
+
+  <!-- DATA MAP -->
+  <p class="sec-label mb-12">Data map — what surfaces when</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Table</th>
+          <th>Business signal</th>
+          <th style="text-align:center">Daily</th>
+          <th style="text-align:center">Weekly</th>
+          <th style="text-align:center">Monthly</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>cx_jobs</td>
+          <td>Completion rate, unassigned, status distribution</td>
+          <td style="text-align:center"><span class="dot dot-d"></span></td>
+          <td style="text-align:center"><span class="dot dot-w"></span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>cx_intake_items</td>
+          <td>New leads, SLA status, promotion rate</td>
+          <td style="text-align:center"><span class="dot dot-d"></span></td>
+          <td style="text-align:center"><span class="dot dot-w"></span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>cx_deals</td>
+          <td>Pipeline value, stage movement, won/lost</td>
+          <td style="text-align:center"><span class="dot dot-d"></span></td>
+          <td style="text-align:center"><span class="dot dot-w"></span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>cx_invoices</td>
+          <td>Revenue invoiced, queue status, aging</td>
+          <td style="text-align:center"><span class="dot dot-d"></span></td>
+          <td style="text-align:center"><span class="dot dot-w"></span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>cx_job_assignments</td>
+          <td>Engineer workload distribution</td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot dot-w"></span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>cx_job_revisits</td>
+          <td>Rework rate, quality signals by job type</td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot dot-w"></span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>cx_deal_estimates</td>
+          <td>Stalled estimates, estimator workload</td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot dot-w"></span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>cx_customers</td>
+          <td>Top customers by job count and value</td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>cx_user_scores</td>
+          <td>Team productivity, activity trends</td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>cx_pl_uploads</td>
+          <td>P&amp;L snapshot, margin by specialism</td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>sid_queries</td>
+          <td>Query volume, refusal rate, knowledge gaps</td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+        <tr>
+          <td>cx_record_history</td>
+          <td>Change frequency, most active users</td>
+          <td style="text-align:center"><span class="dot-no">—</span></td>
+          <td style="text-align:center"><span class="dot dot-w"></span></td>
+          <td style="text-align:center"><span class="dot dot-m"></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ARCHITECTURE -->
+  <div class="divider"></div>
+  <p class="sec-label mb-12">Technical architecture</p>
+  <div class="arch-grid mb-12">
+    <div class="arch-card">
+      <div class="arch-label">Edge functions (new)</div>
+      <div class="arch-val">sid-daily-brief</div>
+      <div class="arch-val">sid-weekly-review</div>
+      <div class="arch-val">sid-monthly-deepdive</div>
+      <div class="arch-note" style="margin-top:8px">Built on the weekly-schedule-notify pattern already in production — same Resend + pg_cron + idempotency shape.</div>
+    </div>
+    <div class="arch-card">
+      <div class="arch-label">Scheduling (pg_cron)</div>
+      <div class="arch-val">Daily: Mon–Fri 07:30 LON</div>
+      <div class="arch-val">Weekly: Mon 07:30 LON</div>
+      <div class="arch-val">Monthly: 1st, 08:00 LON</div>
+      <div class="arch-note" style="margin-top:8px">Same dual-cron BST/GMT DST pattern as existing notify. No new infra needed.</div>
+    </div>
+    <div class="arch-card">
+      <div class="arch-label">New tables</div>
+      <div class="arch-val">sid_report_schedule</div>
+      <div class="arch-val">sid_report_feedback</div>
+      <div class="arch-note" style="margin-top:8px">Schedule: cadence config + recipients + preferences per person. Feedback: reply tracking to shape future sends.</div>
+    </div>
+  </div>
+  <div class="arch-grid">
+    <div class="arch-card">
+      <div class="arch-label">Delivery</div>
+      <div class="arch-val">Resend</div>
+      <div class="arch-note">From: sid@cindersx.com<br/>Reply-to: sid-feedback@cindersx.com<br/>Existing RESEND_API_KEY used.</div>
+    </div>
+    <div class="arch-card">
+      <div class="arch-label">Idempotency</div>
+      <div class="arch-val">cx_notification_log</div>
+      <div class="arch-note">Existing table extended with a cadence column. Prevents duplicate sends on retry or dual-cron overlap.</div>
+    </div>
+    <div class="arch-card">
+      <div class="arch-label">Brand tokens</div>
+      <div class="arch-val" style="color:#FA8638">#FA8638 orange</div>
+      <div class="arch-val" style="color:#F7F0D8">#F7F0D8 cream</div>
+      <div class="arch-val" style="color:#0A0A0A;background:#F7F0D8;border-radius:2px;padding:0 3px;display:inline-block">#0A0A0A black</div>
+      <div class="arch-note" style="margin-top:6px">Emails are light-bg for client compatibility. Orange accent bar. Black header. CindersX wordmark in cream.</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
