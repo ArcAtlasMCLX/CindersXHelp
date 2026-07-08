@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revenue Target Planner — CindersX Guide</title>
+<style>
+  :root {
+    --bg:        #111111;
+    --surface:   #1c1c1c;
+    --border:    #2e2e2e;
+    --accent:    #f97316;
+    --accent-lo: rgba(249,115,22,0.12);
+    --text:      #d4cec8;
+    --muted:     #7a736b;
+    --good:      #22c55e;
+    --good-lo:   rgba(34,197,94,0.10);
+    --warn:      #f59e0b;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg:        #f5f2ee;
+      --surface:   #ffffff;
+      --border:    #ddd8d1;
+      --accent:    #ea6c0a;
+      --accent-lo: rgba(234,108,10,0.10);
+      --text:      #1e1a17;
+      --muted:     #8a8078;
+      --good:      #16a34a;
+      --good-lo:   rgba(22,163,74,0.10);
+      --warn:      #d97706;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:        #f5f2ee;
+    --surface:   #ffffff;
+    --border:    #ddd8d1;
+    --accent:    #ea6c0a;
+    --accent-lo: rgba(234,108,10,0.10);
+    --text:      #1e1a17;
+    --muted:     #8a8078;
+    --good:      #16a34a;
+    --good-lo:   rgba(22,163,74,0.10);
+    --warn:      #d97706;
+  }
+  :root[data-theme="dark"] {
+    --bg:        #111111;
+    --surface:   #1c1c1c;
+    --border:    #2e2e2e;
+    --accent:    #f97316;
+    --accent-lo: rgba(249,115,22,0.12);
+    --text:      #d4cec8;
+    --muted:     #7a736b;
+    --good:      #22c55e;
+    --good-lo:   rgba(34,197,94,0.10);
+    --warn:      #f59e0b;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    padding: 48px 20px 80px;
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* ── header ── */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .header-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--accent-lo);
+    border: 1.5px solid var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .header-icon svg { width: 22px; height: 22px; stroke: var(--accent); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    text-wrap: balance;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── section ── */
+  .section { margin-bottom: 44px; }
+  h2 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  p { color: var(--text); margin-bottom: 14px; max-width: 60ch; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── steps ── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 0 16px;
+    position: relative;
+  }
+  .step:not(:last-child) .step-num::after {
+    content: '';
+    position: absolute;
+    top: 32px;
+    left: 15px;
+    width: 1px;
+    height: calc(100% - 8px);
+    background: var(--border);
+  }
+  .step-num {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 2px;
+  }
+  .step-num span {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-lo);
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step-body {
+    padding-bottom: 28px;
+  }
+  .step-body h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .step-body p { font-size: 14px; color: var(--muted); margin-bottom: 0; max-width: none; }
+
+  /* ── specialism chips ── */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .chip-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── callout ── */
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: var(--muted);
+    margin: 16px 0;
+  }
+  .callout strong { color: var(--text); }
+  .callout.good { border-left-color: var(--good); background: var(--good-lo); }
+
+  /* ── controls table ── */
+  .ctrl-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .ctrl-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+  }
+  .ctrl-card .ctrl-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .ctrl-card p { font-size: 13px; color: var(--muted); max-width: none; margin: 0; }
+
+  /* ── future section ── */
+  .future-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .future-item {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 12px;
+    align-items: start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .future-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--good-lo);
+    border: 1px solid var(--good);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .future-icon svg { width: 16px; height: 16px; stroke: var(--good); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .future-item h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .future-item p { font-size: 13px; color: var(--muted); max-width: none; margin: 0; }
+
+  /* ── note strip ── */
+  .note-strip {
+    margin-top: 44px;
+    padding: 14px 16px;
+    background: var(--accent-lo);
+    border: 1px solid rgba(249,115,22,0.25);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .note-strip strong { color: var(--accent); }
+
+  kbd {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 12px;
+    font-family: ui-monospace, monospace;
+    color: var(--text);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Header ── -->
+  <header class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <div>
+      <div class="eyebrow">CindersX · Management</div>
+      <h1>Revenue Target Planner</h1>
+      <p class="subtitle">Set annual revenue targets by P&amp;L specialism, apply seasonal weightings, and lock plans for comparison against actuals.</p>
+    </div>
+  </header>
+
+  <!-- ── What are specialisms ── -->
+  <section class="section">
+    <h2>The six P&amp;L specialisms</h2>
+    <p>Every job type in CindersX maps to one of six revenue specialisms. These are the lines on your P&amp;L — not job-level categories, but the commercial service lines that your revenue target is built from.</p>
+    <div class="chips">
+      <span class="chip"><span class="chip-dot"></span>Extract Cleans</span>
+      <span class="chip"><span class="chip-dot"></span>Fire Damper Testing</span>
+      <span class="chip"><span class="chip-dot"></span>Fire Door Works</span>
+      <span class="chip"><span class="chip-dot"></span>Air Ventilation Cleans</span>
+      <span class="chip"><span class="chip-dot"></span>Fire Stopping Works</span>
+      <span class="chip"><span class="chip-dot"></span>Fire Damper Remedials</span>
+    </div>
+    <p>All 17 active job types are already mapped. You can review and adjust mappings at <strong>Job Settings → Specialisms</strong>, and you can reassign any job type at <strong>Job Settings → Job Types → General</strong>.</p>
+  </section>
+
+  <!-- ── How to create a plan ── -->
+  <section class="section">
+    <h2>Creating a plan</h2>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num"><span>1</span></div>
+        <div class="step-body">
+          <h3>Open Targets and set the headline number</h3>
+          <p>Go to <strong>Management → Targets</strong>. Enter the year (e.g. 2027), your overall ex-VAT revenue target, and whether the financial year starts in January or July. Click <strong>Generate Plan</strong>.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num"><span>2</span></div>
+        <div class="step-body">
+          <h3>Review the system-calculated grid</h3>
+          <p>CindersX distributes the target across the six specialisms and twelve months using historical blend weightings. The grid shows months as rows and specialisms as columns — no horizontal scrolling. Every cell is rounded to the nearest £1,000.</p>
+          <div class="callout">
+            <strong>Reading the % row:</strong> Directly below the column headers sits an editable percentage for each specialism. These show each specialism's share of the annual total and always sum to 100%.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num"><span>3</span></div>
+        <div class="step-body">
+          <h3>Adjust at the specialism or cell level</h3>
+          <p>Two ways to edit:</p>
+          <div class="ctrl-grid">
+            <div class="ctrl-card">
+              <div class="ctrl-label">Specialism %</div>
+              <p>Change a specialism's share — e.g. raise Fire Door Works from 26% to 30%. All other specialism percentages scale down proportionally. Monthly amounts update instantly across all 12 rows.</p>
+            </div>
+            <div class="ctrl-card">
+              <div class="ctrl-label">Individual cell</div>
+              <p>Click any cell and type a value. The cell snaps to the nearest £1k on blur and is highlighted in amber to indicate it has been manually overridden.</p>
+            </div>
+          </div>
+          <div class="callout" style="margin-top:12px;">
+            Press <kbd>Tab</kbd> between percentage inputs or <kbd>Enter</kbd> to commit. Unsaved changes are held in memory until you click <strong>Save Changes</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num"><span>4</span></div>
+        <div class="step-body">
+          <h3>Save and lock</h3>
+          <p>Click <strong>Save Changes</strong> at any point to persist edits. When the plan is finalised, click <strong>Lock Plan</strong>. Locked plans are read-only and can only be unlocked by a super admin. The system will warn you if the plan total doesn't match your headline target before you lock.</p>
+          <div class="callout good">
+            <strong>One plan per period:</strong> CindersX prevents you creating two plans for the same year and period start. The form will warn you, and the database enforces it as a hard constraint.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Controls reference ── -->
+  <section class="section">
+    <h2>Quick reference</h2>
+    <div class="ctrl-grid">
+      <div class="ctrl-card">
+        <div class="ctrl-label">Reset to System</div>
+        <p>Discards all manual overrides and restores every cell to the system-calculated value based on your weightings.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-label">Lock Plan</div>
+        <p>Makes the plan read-only. Locked plans can be read by all internal users and used as the target baseline in reporting.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-label">Unlock Plan</div>
+        <p>Super admins only. Reverts a locked plan to draft so it can be edited. Use with care — any reports using this plan as baseline will reflect the change.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-label">Delete Plan</div>
+        <p>Available on draft plans only (from the list or the plan header). Permanently removes the plan and all 72 line entries. Locked plans must be unlocked first.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── What this unlocks ── -->
+  <section class="section">
+    <h2>What this enables</h2>
+    <div class="future-grid">
+
+      <div class="future-item">
+        <div class="future-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <h4>Actual vs target, per specialism per month</h4>
+          <p>Once invoiced revenue is tagged to job types — which are now all mapped to specialisms — CindersX can produce a live actual vs target view. You'll see which service lines are running ahead or behind, not just the company total.</p>
+        </div>
+      </div>
+
+      <div class="future-item">
+        <div class="future-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div>
+          <h4>Dashboard target bars</h4>
+          <p>Locked plans feed the Management Dashboard. The SID intelligence layer can reference the locked plan to contextualise revenue commentary — e.g. "Fire Door Works is £42k ahead of the April target."</p>
+        </div>
+      </div>
+
+      <div class="future-item">
+        <div class="future-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div>
+          <h4>Year-on-year comparison</h4>
+          <p>Because plans are versioned by year, you can compare 2026 actuals against 2026 targets, then use those actuals to inform how the 2027 weightings are set — closing the planning loop.</p>
+        </div>
+      </div>
+
+      <div class="future-item">
+        <div class="future-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <h4>Mid-year reforecast</h4>
+          <p>The July period start option is there for a reason. At mid-year you can create a second plan (Jan–Dec, same year, different period start) as a reforecast — your H1 actuals inform the H2 numbers — and lock it as the revised baseline.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Footer note ── -->
+  <div class="note-strip">
+    <strong>Stage only for now.</strong> This feature is live on stage.cindersx.com. Once reviewed and approved it will be promoted to production. No data entered on stage will carry over.
+  </div>
+
+</div>
+</body>
+</html>
